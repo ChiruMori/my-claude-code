@@ -1,6 +1,6 @@
 # My Claude Code
 
-> This project is a fork of [Claude Code Haha](https://github.com/claude-code-haha/claude-code-haha). It is for personal local learning and has no plans to merge back into the original repository.
+> This project is a fork of [Claude Code Haha](https://github.com/NanmiCoder/claude-code-haha). It is for personal local learning and has no plans to merge back into the original repository.
 
 > The fork only tweaks a few configurations and scripts to run on Windows. The following are the original project description.
 

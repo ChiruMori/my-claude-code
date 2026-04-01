@@ -1,6 +1,6 @@
 # My Claude Code
 
-> 本项目 Fork 自 [Claude Code Haha](https://github.com/claude-code-haha/claude-code-haha)，仅个人学习研究使用，没有合并到原仓库的计划。
+> 本项目 Fork 自 [Claude Code Haha](https://github.com/NanmiCoder/claude-code-haha)，仅个人学习研究使用，没有合并到原仓库的计划。
 > 
 > 本 Fork 仅调整少量配置、脚本，以在 Windows 上运行。以下均为原项目描述
 
