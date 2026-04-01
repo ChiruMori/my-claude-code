@@ -3,3 +3,7 @@
 !.env.example
 node_modules
 bun.lock
+bin/claude.exe
+bin/claude
+bin/cli.exe
+bin/cli

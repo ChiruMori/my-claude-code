@@ -1,6 +1,6 @@
 import { feature } from 'bun:bundle'
 import type { ToolResultBlockParam } from '@anthropic-ai/sdk/resources/index.mjs'
-import type { QuerySource } from '../../constants/querySource.js'
+// import type { QuerySource } from '../../constants/querySource.js'
 import type { ToolUseContext } from '../../Tool.js'
 import { FILE_EDIT_TOOL_NAME } from '../../tools/FileEditTool/constants.js'
 import { FILE_READ_TOOL_NAME } from '../../tools/FileReadTool/prompt.js'
@@ -9,7 +9,7 @@ import { GLOB_TOOL_NAME } from '../../tools/GlobTool/prompt.js'
 import { GREP_TOOL_NAME } from '../../tools/GrepTool/prompt.js'
 import { WEB_FETCH_TOOL_NAME } from '../../tools/WebFetchTool/prompt.js'
 import { WEB_SEARCH_TOOL_NAME } from '../../tools/WebSearchTool/prompt.js'
-import type { Message } from '../../types/message.js'
+// import type { Message } from '../../types/message.js'
 import { logForDebugging } from '../../utils/debug.js'
 import { getMainLoopModel } from '../../utils/model/model.js'
 import { SHELL_TOOL_NAMES } from '../../utils/shell/shellToolUtils.js'
@@ -53,22 +53,27 @@ const COMPACTABLE_TOOLS = new Set<string>([
 
 // Lazy-initialized cached MC module and state to avoid importing in external builds.
 // The imports and state live inside feature() checks for dead code elimination.
-let cachedMCModule: typeof import('./cachedMicrocompact.js') | null = null
-let cachedMCState: import('./cachedMicrocompact.js').CachedMCState | null = null
-let pendingCacheEdits:
-  | import('./cachedMicrocompact.js').CacheEditsBlock
-  | null = null
+// FIXME: IGNORE
+// let cachedMCModule: typeof import('./cachedMicrocompact.js') | null = null
+// let cachedMCState: import('./cachedMicrocompact.js').CachedMCState | null = null
+// let pendingCacheEdits:
+//   | import('./cachedMicrocompact.js').CacheEditsBlock
+//   | null = null
+let cachedMCModule = null
+let cachedMCState = null
+let pendingCacheEdits = null
 
-async function getCachedMCModule(): Promise<
-  typeof import('./cachedMicrocompact.js')
-> {
-  if (!cachedMCModule) {
-    cachedMCModule = await import('./cachedMicrocompact.js')
-  }
-  return cachedMCModule
+async function getCachedMCModule(): Promise<any> {
+  // FIXME: IGNORE
+  // if (!cachedMCModule) {
+  //   cachedMCModule = await import('./cachedMicrocompact.js')
+  // }
+  // return cachedMCModule
+  return null
 }
 
-function ensureCachedMCState(): import('./cachedMicrocompact.js').CachedMCState {
+// function ensureCachedMCState(): import('./cachedMicrocompact.js').CachedMCState {
+function ensureCachedMCState() {
   if (!cachedMCState && cachedMCModule) {
     cachedMCState = cachedMCModule.createCachedMCState()
   }
@@ -85,9 +90,10 @@ function ensureCachedMCState(): import('./cachedMicrocompact.js').CachedMCState 
  * Returns null if there are no new pending edits.
  * Clears the pending state (caller must pin them after insertion).
  */
-export function consumePendingCacheEdits():
-  | import('./cachedMicrocompact.js').CacheEditsBlock
-  | null {
+// export function consumePendingCacheEdits():
+//   | import('./cachedMicrocompact.js').CacheEditsBlock
+//   | null {
+export function consumePendingCacheEdits(){
   const edits = pendingCacheEdits
   pendingCacheEdits = null
   return edits
@@ -97,7 +103,8 @@ export function consumePendingCacheEdits():
  * Get all previously-pinned cache edits that must be re-sent at their
  * original positions for cache hits.
  */
-export function getPinnedCacheEdits(): import('./cachedMicrocompact.js').PinnedCacheEdits[] {
+// export function getPinnedCacheEdits(): import('./cachedMicrocompact.js').PinnedCacheEdits[] {
+export function getPinnedCacheEdits() {
   if (!cachedMCState) {
     return []
   }
@@ -110,7 +117,8 @@ export function getPinnedCacheEdits(): import('./cachedMicrocompact.js').PinnedC
  */
 export function pinCacheEdits(
   userMessageIndex: number,
-  block: import('./cachedMicrocompact.js').CacheEditsBlock,
+  // block: import('./cachedMicrocompact.js').CacheEditsBlock,
+  block: any,
 ): void {
   if (cachedMCState) {
     cachedMCState.pinnedEdits.push({ userMessageIndex, block })

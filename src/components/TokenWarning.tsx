@@ -23,17 +23,19 @@ function CollapseLabel(t0) {
   const {
     upgradeMessage
   } = t0;
-  let t1;
-  if ($[0] === Symbol.for("react.memo_cache_sentinel")) {
-    t1 = require("../services/contextCollapse/index.js");
-    $[0] = t1;
-  } else {
-    t1 = $[0];
-  }
+  let t1 =$[0];
+  // FIXME: IGNORE
+  // if ($[0] === Symbol.for("react.memo_cache_sentinel")) {
+  //   t1 = require("../services/contextCollapse/index.js");
+  //   $[0] = t1;
+  // } else {
+  //   t1 = $[0];
+  // }
   const {
     getStats,
     subscribe
-  } = t1 as typeof import('../services/contextCollapse/index.js');
+  } = t1;
+  // } = t1 as typeof import('../services/contextCollapse/index.js');
   let t2;
   if ($[1] === Symbol.for("react.memo_cache_sentinel")) {
     t2 = () => {

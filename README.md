@@ -1,12 +1,12 @@
 # My Claude Code
 
 > 本项目 Fork 自 [Claude Code Haha](https://github.com/NanmiCoder/claude-code-haha)，仅个人学习研究使用，没有合并到原仓库的计划。
-> 
-> 本 Fork 仅调整少量配置、脚本，以在 Windows 上运行。以下均为原项目描述
 
 基于 Claude Code 泄露源码修复的**本地可运行版本**，支持接入任意 Anthropic 兼容 API（如 MiniMax、OpenRouter 等）。
 
-> 原始泄露源码无法直接运行。本仓库修复了启动链路中的多个阻塞问题，使完整的 Ink TUI 交互界面可以在本地工作。
+> Fork 仓库修复了启动链路中的多个阻塞问题，使完整的 Ink TUI 交互界面可以在本地工作。
+> 
+> 本项目在原项目的基础上，进一步修复了无法构建、独立运行的问题，使项目可以在 Windows 上，脱离开发环境独立运行。
 
 <p align="center">
   <img src="docs/00runtime.png" alt="运行截图" width="800">
@@ -83,13 +83,7 @@ bun install
 
 ### 3. 配置环境变量
 
-复制示例文件并填入你的 API Key：
-
-```bash
-cp .env.example .env
-```
-
-编辑 `.env`：
+创建 `.env`，并填写你的 API Key 或 Auth Token（二选一），同样支持自定义 API 端点和模型配置，可以参考 `.env.example` 文件：
 
 ```env
 # API 认证（二选一）
@@ -115,23 +109,19 @@ CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
 
 ### 4. 启动
 
+交互 TUI 模式（完整界面）通过下述指令可启动，你可以手动修改 package.json 以添加更多方式
+
 ```bash
-# 交互 TUI 模式（完整界面）
-./bin/cc.cmd
-
-# 无头模式（单次问答）
-./bin/cc.cmd -p "your prompt here"
-
-# 管道输入
-echo "explain this code" | ./bin/cc.cmd -p
-
-# 查看所有选项
-./bin/cc.cmd --help
+bun run win
 ```
 
 ---
 
 ## 环境变量说明
+
+> 如果使用构建后的独立运行版本，需要手动配置这些环境变量，否则你将看到要求登录的提示。
+>
+> 可以直接配置到系统环境变量中，也可以创建一个 `.env` 文件，将变量值写入其中，放置到项目目录下
 
 | 变量 | 必填 | 说明 |
 |------|------|------|
@@ -153,7 +143,7 @@ echo "explain this code" | ./bin/cc.cmd -p
 如果完整 TUI 出现问题，可以使用简化版 readline 交互模式：
 
 ```bash
-CLAUDE_CODE_FORCE_RECOVERY_CLI=1 ./bin/claude-haha
+CLAUDE_CODE_FORCE_RECOVERY_CLI=1 ./bin/claude
 ```
 
 ---
@@ -171,45 +161,15 @@ CLAUDE_CODE_FORCE_RECOVERY_CLI=1 ./bin/claude-haha
 | **Enter 键无响应** | `modifiers-napi` native 包缺失，`isModifierPressed()` 抛异常导致 `handleEnter` 中断，`onSubmit` 永远不执行 | 加 try-catch 容错 |
 | setup 被跳过 | `preload.ts` 自动设置 `LOCAL_RECOVERY=1` 跳过全部初始化 | 移除默认设置 |
 
----
+在上述修复的基础上，本项目进一步进行了如下修改：
 
-## 项目结构
-
-```
-bin/claude-haha          # 入口脚本
-preload.ts               # Bun preload（设置 MACRO 全局变量）
-.env.example             # 环境变量模板
-src/
-├── entrypoints/cli.tsx  # CLI 主入口
-├── main.tsx             # TUI 主逻辑（Commander.js + React/Ink）
-├── localRecoveryCli.ts  # 降级 Recovery CLI
-├── setup.ts             # 启动初始化
-├── screens/REPL.tsx     # 交互 REPL 界面
-├── ink/                 # Ink 终端渲染引擎
-├── components/          # UI 组件
-├── tools/               # Agent 工具（Bash, Edit, Grep 等）
-├── commands/            # 斜杠命令（/commit, /review 等）
-├── skills/              # Skill 系统
-├── services/            # 服务层（API, MCP, OAuth 等）
-├── hooks/               # React hooks
-└── utils/               # 工具函数
-```
-
----
-
-## 技术栈
-
-| 类别 | 技术 |
-|------|------|
-| 运行时 | [Bun](https://bun.sh) |
-| 语言 | TypeScript |
-| 终端 UI | React + [Ink](https://github.com/vadimdemedes/ink) |
-| CLI 解析 | Commander.js |
-| API | Anthropic SDK |
-| 协议 | MCP, LSP |
+- 移除缺失的代码，使之不阻塞构建流程（同时会影响一部分功能，因代码缺失，无法恢复）
+- 添加了新的构建脚本，可构建独立运行版本（mac 版本未测试）
 
 ---
 
 ## Disclaimer
 
 本仓库基于 2026-03-31 从 Anthropic npm registry 泄露的 Claude Code 源码。所有原始源码版权归 [Anthropic](https://www.anthropic.com) 所有。仅供学习和研究用途。
+
+项目代码并不完整，可能存在缺失的功能和错误，建议仅在开发环境中使用。

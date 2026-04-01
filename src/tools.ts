@@ -13,15 +13,17 @@ import { TaskStopTool } from './tools/TaskStopTool/TaskStopTool.js'
 import { BriefTool } from './tools/BriefTool/BriefTool.js'
 // Dead code elimination: conditional import for ant-only tools
 /* eslint-disable custom-rules/no-process-env-top-level, @typescript-eslint/no-require-imports */
-const REPLTool =
-  process.env.USER_TYPE === 'ant'
-    ? require('./tools/REPLTool/REPLTool.js').REPLTool
-    : null
-const SuggestBackgroundPRTool =
-  process.env.USER_TYPE === 'ant'
-    ? require('./tools/SuggestBackgroundPRTool/SuggestBackgroundPRTool.js')
-        .SuggestBackgroundPRTool
-    : null
+const REPLTool = null
+// FIXME: IGNORE
+  // process.env.USER_TYPE === 'ant'
+  //   ? require('./tools/REPLTool/REPLTool.js').REPLTool
+  //   : null
+const SuggestBackgroundPRTool = null
+// FIXME: IGNORE
+  // process.env.USER_TYPE === 'ant'
+  //   ? require('./tools/SuggestBackgroundPRTool/SuggestBackgroundPRTool.js')
+  //       .SuggestBackgroundPRTool
+  //   : null
 const SleepTool =
   feature('PROACTIVE') || feature('KAIROS')
     ? require('./tools/SleepTool/SleepTool.js').SleepTool
@@ -88,11 +90,12 @@ import { isToolSearchEnabledOptimistic } from './utils/toolSearch.js'
 import { isTodoV2Enabled } from './utils/tasks.js'
 // Dead code elimination: conditional import for CLAUDE_CODE_VERIFY_PLAN
 /* eslint-disable custom-rules/no-process-env-top-level, @typescript-eslint/no-require-imports */
-const VerifyPlanExecutionTool =
-  process.env.CLAUDE_CODE_VERIFY_PLAN === 'true'
-    ? require('./tools/VerifyPlanExecutionTool/VerifyPlanExecutionTool.js')
-        .VerifyPlanExecutionTool
-    : null
+const VerifyPlanExecutionTool = null
+// FIXME: IGNORE
+  // process.env.CLAUDE_CODE_VERIFY_PLAN === 'true'
+  //   ? require('./tools/VerifyPlanExecutionTool/VerifyPlanExecutionTool.js')
+  //       .VerifyPlanExecutionTool
+  //   : null
 /* eslint-enable custom-rules/no-process-env-top-level, @typescript-eslint/no-require-imports */
 import { SYNTHETIC_OUTPUT_TOOL_NAME } from './tools/SyntheticOutputTool/SyntheticOutputTool.js'
 export {

@@ -31,10 +31,12 @@ export async function launchSnapshotUpdateDialog(root: Root, props: {
   scope: AgentMemoryScope;
   snapshotTimestamp: string;
 }): Promise<'merge' | 'keep' | 'replace'> {
-  const {
-    SnapshotUpdateDialog
-  } = await import('./components/agents/SnapshotUpdateDialog.js');
-  return showSetupDialog<'merge' | 'keep' | 'replace'>(root, done => <SnapshotUpdateDialog agentType={props.agentType} scope={props.scope} snapshotTimestamp={props.snapshotTimestamp} onComplete={done} onCancel={() => done('keep')} />);
+  // FIXME: IGNORE
+  // const {
+  //   SnapshotUpdateDialog
+  // } = await import('./components/agents/SnapshotUpdateDialog.js');
+  // return showSetupDialog<'merge' | 'keep' | 'replace'>(root, done => <SnapshotUpdateDialog agentType={props.agentType} scope={props.scope} snapshotTimestamp={props.snapshotTimestamp} onComplete={done} onCancel={() => done('keep')} />);
+  return <></>
 }
 
 /**
@@ -58,10 +60,12 @@ export async function launchInvalidSettingsDialog(root: Root, props: {
 export async function launchAssistantSessionChooser(root: Root, props: {
   sessions: AssistantSession[];
 }): Promise<string | null> {
-  const {
-    AssistantSessionChooser
-  } = await import('./assistant/AssistantSessionChooser.js');
-  return showSetupDialog<string | null>(root, done => <AssistantSessionChooser sessions={props.sessions} onSelect={id => done(id)} onCancel={() => done(null)} />);
+  // FIXME: IGNORE
+  // const {
+  //   AssistantSessionChooser
+  // } = await import('./assistant/AssistantSessionChooser.js');
+  // return showSetupDialog<string | null>(root, done => <AssistantSessionChooser sessions={props.sessions} onSelect={id => done(id)} onCancel={() => done(null)} />);
+  return <></>
 }
 
 /**
@@ -71,17 +75,19 @@ export async function launchAssistantSessionChooser(root: Root, props: {
  * distinguish errors from user cancellation.
  */
 export async function launchAssistantInstallWizard(root: Root): Promise<string | null> {
-  const {
-    NewInstallWizard,
-    computeDefaultInstallDir
-  } = await import('./commands/assistant/assistant.js');
-  const defaultDir = await computeDefaultInstallDir();
+  // FIXME: IGNORE
+  // const {
+  //   NewInstallWizard,
+  //   computeDefaultInstallDir
+  // } = await import('./commands/assistant/assistant.js');
+  // const defaultDir = await computeDefaultInstallDir();
   let rejectWithError: (reason: Error) => void;
   const errorPromise = new Promise<never>((_, reject) => {
     rejectWithError = reject;
   });
-  const resultPromise = showSetupDialog<string | null>(root, done => <NewInstallWizard defaultDir={defaultDir} onInstalled={dir => done(dir)} onCancel={() => done(null)} onError={message => rejectWithError(new Error(`Installation failed: ${message}`))} />);
-  return Promise.race([resultPromise, errorPromise]);
+  // const resultPromise = showSetupDialog<string | null>(root, done => <NewInstallWizard defaultDir={defaultDir} onInstalled={dir => done(dir)} onCancel={() => done(null)} onError={message => rejectWithError(new Error(`Installation failed: ${message}`))} />);
+  // return Promise.race([resultPromise, errorPromise]);
+  return Promise.race([errorPromise, Promise.reject("Current version is not supported.")]);
 }
 
 /**
